@@ -10,11 +10,11 @@ import comments from './routes/comments.js'
 const app = express();
 const port = 3000;
 
-// Parsing Middleware
+// --------------------------------------Parsing Middleware------------------------------------------
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
-// Logging Middlewaare
+//----------------------------------------Logging Middlewaare-----------------------------------------
 app.use((req, res, next) => {
   const time = new Date();
 
@@ -29,7 +29,7 @@ ${time.toLocaleTimeString()}: Received a ${req.method} request to ${req.url}.`
   next();
 });
 
-// Valid API Keys.
+//------------------------------------------ Valid API Keys.--------------------------------------------
 const apiKeys = ["perscholas", "ps-example", "hJAsknw-L198sAJD-l3kasx"];
 
 // New middleware to check for API keys!
@@ -51,11 +51,11 @@ app.use("/api", function (req, res, next) {
   next();
 });
 
-// Use our Routes
+// ----------------------------------Use our Routes-----------------------------------------------
 app.use("/api/users", users);
 app.use("/api/posts", posts);
 app.use("/api/comments", comments);
-// Adding some HATEOAS links.
+// -------------------------------------------Adding some HATEOAS links.--------------------
 app.get("/", (req, res) => {
   res.json({
     links: [
@@ -96,7 +96,7 @@ app.get("/api", (req, res) => {
   });
 });
 
-// 404 Middleware
+//------------------------------------------- 404 Middleware--------------------------------
 app.use((req, res, next) => {
   next(error(404, "Resource Not Found"));
 });
@@ -113,7 +113,7 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.json({ error: err.message });
 });
-
+//-----------------------------------------------Listen to port 3000.------------------------------
 app.listen(port, () => {
   console.log(`Server listening on port: ${port}.`);
 });
